@@ -6,6 +6,38 @@
     <title>Document</title>
 </head>
 <body>
-    hi
+    <p>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+void swap(int *a, int *b) {
+    int t = *a; *a = *b; *b = t;
+}
+
+int p(int a[], int l, int h) {
+    int pivot = a[h], i = l - 1, j;
+    for (j = l; j < h; j++) if (a[j] < pivot) swap(&a[++i], &a[j]);
+    swap(&a[++i], &a[h]);
+    return i;
+}
+
+int q(int a[], int l, int h, int k) {
+    if (l == h) return a[l];
+    int pIndex = p(a, l, h);
+    return (k == pIndex) ? a[pIndex] : (k < pIndex) ? q(a, l, pIndex - 1, k) : q(a, pIndex + 1, h, k);
+}
+
+int find_k(int a[], int n, int k) {
+    return q(a, 0, n - 1, k - 1);
+}
+
+int main() {
+    srand(time(NULL));
+    int a[] = {12, 7, 91, 7, 21, 50};
+    printf("%dth smallest: %d\n", 5, find_k(a, 6, 5));
+    return 0;
+}
+</p>
 </body>
 </html>
